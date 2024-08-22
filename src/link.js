@@ -31,9 +31,26 @@ export default function(links) {
   }
 
   function force(alpha) {
-    for (var k = 0, n = links.length; k < iterations; ++k) {
-      for (var i = 0, link, source, target, x = 0, y = 0, z = 0, l, b; i < n; ++i) {
-        link = links[i], source = link.source, target = link.target;
+    for (var k = 0,
+             n = links.length;
+         k < iterations;
+         ++k
+    ) {
+      for (var i = 0,
+               link,
+               source,
+               target,
+               x = 0,
+               y = 0,
+               z = 0,
+               l,
+               b;
+           i < n;
+           ++i
+      ) {
+        link = links[i],
+            source = link.source,
+            target = link.target;
         x = target.x + target.vx - source.x - source.vx || jiggle(random);
         if (nDim > 1) { y = target.y + target.vy - source.y - source.vy || jiggle(random); }
         if (nDim > 2) { z = target.z + target.vz - source.z - source.vz || jiggle(random); }
@@ -69,8 +86,11 @@ export default function(links) {
       count[link.target.index] = (count[link.target.index] || 0) + 1;
     }
 
-    for (i = 0, bias = new Array(m); i < m; ++i) {
-      link = links[i], bias[i] = count[link.source.index] / (count[link.source.index] + count[link.target.index]);
+    for (i = 0, bias = new Array(m);
+         i < m;
+         ++i) {
+      link = links[i],
+          bias[i] = count[link.source.index] / (count[link.source.index] + count[link.target.index]);
     }
 
     strengths = new Array(m), initializeStrength();
