@@ -8,7 +8,7 @@ import {x, y, z} from "./simulation.js";
 export default function () {
     var nodes,
         nDim,
-        node,    // Temporary variable that refers to the current node. 
+        node,    // Temporary variable that refers to the current node.
         // This is mainly used in the function apply.
         random,
         alpha,
