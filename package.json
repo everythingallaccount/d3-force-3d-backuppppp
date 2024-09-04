@@ -53,7 +53,8 @@
   },
   "scripts": {
     "test": "mocha 'test/**/*-test.js' && eslint src test",
-    "prepare1": "rm -rf dist && yarn test && rollup -c"
+    "prepare1": "rm -rf dist && yarn test && rollup -c",
+    "a": "rollup -c"
   },
   "engines": {
     "node": ">=12"

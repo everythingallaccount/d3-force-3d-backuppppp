@@ -1,6 +1,7 @@
 import {dispatch} from "d3-dispatch";
 import {timer} from "d3-timer";
 import lcg from "./lcg.js";
+import {l} from "./utilssssss.js";
 
 var MAX_DIMENSIONS = 3;
 
@@ -21,6 +22,8 @@ var initialRadius = 10,
     initialAngleYaw = Math.PI * 20 / (9 + Math.sqrt(221)); // Markov irrational number
 
 export default function (nodes, numDimensions) {
+    l("d3 forceSimulation function called!")
+
     numDimensions = numDimensions || 2;
 
     var nDim = Math.min(MAX_DIMENSIONS, Math.max(1, Math.round(numDimensions))),
@@ -38,6 +41,7 @@ export default function (nodes, numDimensions) {
     if (nodes == null) nodes = [];
 
     function step() {
+        l("stepppppppppppppppppppppppppppp")
         tick();
         event.call("tick", simulation);
         if (alpha < alphaMin) {
@@ -47,6 +51,7 @@ export default function (nodes, numDimensions) {
     }
 
     function tick(iterations) {
+        l("tttttttttttttttttttttttttttttt")
         var i, n = nodes.length, node;
 
         if (iterations === undefined) iterations = 1;
@@ -82,8 +87,15 @@ export default function (nodes, numDimensions) {
             if (node.fx != null) node.x = node.fx;
             if (node.fy != null) node.y = node.fy;
             if (node.fz != null) node.z = node.fz;
-            if (isNaN(node.x) || (nDim > 1 && isNaN(node.y)) || (nDim > 2 && isNaN(node.z))) {
-                var radius = initialRadius * (nDim > 2 ? Math.cbrt(0.5 + i) : (nDim > 1 ? Math.sqrt(0.5 + i) : i)),
+            if (isNaN(node.x) ||
+                (nDim > 1 && isNaN(node.y)) ||
+                (nDim > 2 && isNaN(node.z))
+            ) {
+                var radius = initialRadius *
+                        (nDim > 2 ?
+                            Math.cbrt(0.5 + i) :
+                            (nDim > 1 ? Math.sqrt(0.5 + i) : i)
+                        ),
                     rollAngle = i * initialAngleRoll,
                     yawAngle = i * initialAngleYaw;
 
