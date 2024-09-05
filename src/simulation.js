@@ -41,7 +41,7 @@ export default function (nodes, numDimensions) {
     if (nodes == null) nodes = [];
 
     function step() {
-        l("stepppppppppppppppppppppppppppp")
+        l("!!!!!!!stepppppppppppppppppppppppppppp")
         tick();
         event.call("tick", simulation);
         if (alpha < alphaMin) {
@@ -51,15 +51,21 @@ export default function (nodes, numDimensions) {
     }
 
     function tick(iterations) {
-        l("tttttttttttttttttttttttttttttt")
+        l("!!!!!!!tick")
         var i, n = nodes.length, node;
 
         if (iterations === undefined) iterations = 1;
 
         for (var k = 0; k < iterations; ++k) {
+            l("!!!!!!!tick: iterations", k)
             alpha += (alphaTarget - alpha) * alphaDecay;
 
+
+            l("!!!!!!!tick: forces.forEach")
+
             forces.forEach(function (force) {
+
+                l("!!!!!!!tick: forces.forEach: force", force)
                 force(alpha);
             });
 
@@ -83,6 +89,8 @@ export default function (nodes, numDimensions) {
 
     function initializeNodes() {
         for (var i = 0, n = nodes.length, node; i < n; ++i) {
+
+
             node = nodes[i], node.index = i;
             if (node.fx != null) node.x = node.fx;
             if (node.fy != null) node.y = node.fy;
@@ -93,8 +101,8 @@ export default function (nodes, numDimensions) {
             ) {
                 var radius = initialRadius *
                         (nDim > 2 ?
-                            Math.cbrt(0.5 + i) :
-                            (nDim > 1 ? Math.sqrt(0.5 + i) : i)
+                                Math.cbrt(0.5 + i) :
+                                (nDim > 1 ? Math.sqrt(0.5 + i) : i)
                         ),
                     rollAngle = i * initialAngleRoll,
                     yawAngle = i * initialAngleYaw;
@@ -119,6 +127,9 @@ export default function (nodes, numDimensions) {
                     node.vz = 0;
                 }
             }
+
+            l("node.x:", node.x, "node.y:", node.y, "node.z:", node.z)
+
         }
     }
 
@@ -178,8 +189,8 @@ export default function (nodes, numDimensions) {
             return arguments.length > 1 ?
                 (
                     (_ == null ?
-                        forces.delete(name) :
-                        forces.set(name, initializeForce(_))
+                            forces.delete(name) :
+                            forces.set(name, initializeForce(_))
                     ),
                         simulation
                 )

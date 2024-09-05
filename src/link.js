@@ -6,6 +6,14 @@ function index(d) {
     return d.index;
 }
 
+
+
+
+
+
+
+
+
 function find(nodeById, nodeId) {
     var node = nodeById.get(nodeId);
     if (!node) throw new Error("node not found: " + nodeId);
@@ -51,7 +59,7 @@ export default function (links) {
             ) {
 
 
-                ll("links[i]iiiiiiiiiiiiii = ", links[i]);
+                ll("!!!!!!!!links[i]", links[i]);
                 link = links[i],
                     source = link.source,
                     target = link.target;
@@ -81,6 +89,9 @@ export default function (links) {
                 if (nDim > 2) {
                     source.vz += z * b;
                 }
+
+                ll("!!!!!!!!source.vx", source.vx, "source.vy", source.vy, "source.vz", source.vz)
+                ll("!!!!!!!!target.vx", target.vx, "target.vy", target.vy, "target.vz", target.vz)
             }
         }
     }
