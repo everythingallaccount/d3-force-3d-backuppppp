@@ -21,6 +21,10 @@ export default function () {
 
     function force(_) {
         l("!!!!!!!!force(_)!!!!!!!!");
+        l("!!!!!!!!force(_)!!!!!!!! Now attempting to build a new tree with the nodes:", nodes,
+            "Right after the tree is built we accumulate the forces Downside up. "
+            );
+
         var i,
             n = nodes.length,
             tree =
@@ -33,6 +37,7 @@ export default function () {
                         )
                 ).visitAfter(accumulate);
         l("!!!!!!!!force(_)!!!!!!!!  tree:", tree);
+        l("!!!!!!!!force(_)!!!!!!!!  tree.root:", tree._root);
         for (alpha = _, i = 0; i < n; ++i)
             node = nodes[i], tree.visit(apply);
     }
