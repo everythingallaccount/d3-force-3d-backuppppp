@@ -4,6 +4,7 @@ import {octree} from "d3-octree";
 import constant from "./constant.js";
 import jiggle from "./jiggle.js";
 import {x, y, z} from "./simulation.js";
+import {l} from "./utilssssss.js";
 
 export default function () {
     var nodes,
@@ -19,6 +20,7 @@ export default function () {
         theta2 = 0.81;
 
     function force(_) {
+        l("!!!!!!!!force(_)!!!!!!!!");
         var i,
             n = nodes.length,
             tree =
@@ -30,7 +32,7 @@ export default function () {
                                 )
                         )
                 ).visitAfter(accumulate);
-
+        l("!!!!!!!!force(_)!!!!!!!!  tree:", tree);
         for (alpha = _, i = 0; i < n; ++i)
             node = nodes[i], tree.visit(apply);
     }
@@ -63,7 +65,6 @@ export default function () {
         if (numChildren) {
 
 
-
             for (x = y = z = i = 0;
                  i < numChildren;
                  ++i
@@ -89,6 +90,11 @@ export default function () {
             if (nDim > 2) {
                 treeNode.z = z / weight;
             }
+
+            l("!!!!!!!!accumulate treeNode:" +
+                "(This mainly calculate the average value of the X and Y of all the Data points in a node. ",
+                treeNode
+            );
         }
 
         // For leaf nodes, accumulate forces from coincident nodes.
