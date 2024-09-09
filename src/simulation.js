@@ -65,7 +65,9 @@ export default function (nodes, numDimensions) {
 
             forces.forEach(function (force) {
 
-                l("!!!!!!!tick: forces.forEach: force", force)
+                l("!!!!!!!tick: forces.forEach: force",
+                    // force
+                )
                 force(alpha);
             });
 

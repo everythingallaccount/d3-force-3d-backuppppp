@@ -23,7 +23,7 @@ export default function () {
         l("!!!!!!!!force(_)!!!!!!!!");
         l("!!!!!!!!force(_)!!!!!!!! Now attempting to build a new tree with the nodes:", nodes,
             "Right after the tree is built we accumulate the forces Downside up. "
-            );
+        );
 
         var i,
             n = nodes.length,
@@ -35,11 +35,15 @@ export default function () {
                                         : null
                                 )
                         )
-                ).visitAfter(accumulate);
+                )
+
+
+        tree.visitAfter(accumulate);
         l("!!!!!!!!force(_)!!!!!!!!  tree:", tree);
         l("!!!!!!!!force(_)!!!!!!!!  tree.root:", tree._root);
         for (alpha = _, i = 0; i < n; ++i)
-            node = nodes[i], tree.visit(apply);
+            node = nodes[i],
+                tree.visit(apply);// We visit the tree against this node.
     }
 
     function initialize() {
@@ -65,8 +69,9 @@ export default function () {
             i;
 
         var numChildren = treeNode.length;
-
-        // For internal nodes, accumulate forces from children.
+        l("!!!!!!!!accumulate numChildren:", numChildren);
+        // This function is meant to be called bottom up approach in the whole tree,
+        // so the else part will be 1 1st.
         if (numChildren) {
 
 
@@ -112,8 +117,8 @@ export default function () {
             if (nDim > 2) {
                 q.z = q.data.z;
             }
-            do strength += strengths[q.data.index];
-            while (q = q.next);
+            do strength += strengths[q.data.index];  // Minus 30 for all the node.
+            while (q = q.next);       // q.next is the next node in the same Position
         }
 
         treeNode.value = strength;
@@ -131,7 +136,13 @@ export default function () {
 
         // Apply the Barnes-Hut approximation if possible.
         // Limit forces for very close nodes; randomize direction if coincident.
-        if (w * w / theta2 < l) {
+
+        if (w * w / theta2 < l
+            // The distance between the Data and the Center of the bound of the tree node
+            // is greater than
+            // the Extend of the bound
+
+        ) {
             if (l < distanceMax2) {
 
                 if (x === 0)
@@ -139,7 +150,11 @@ export default function () {
                         l += x * x;
                 if (nDim > 1 && y === 0) y = jiggle(random), l += y * y;
                 if (nDim > 2 && z === 0) z = jiggle(random), l += z * z;
+
+
                 if (l < distanceMin2) l = Math.sqrt(distanceMin2 * l);
+
+
                 node.vx += x * treeNode.value * alpha / l;
                 if (nDim > 1) {
                     node.vy += y * treeNode.value * alpha / l;
@@ -147,18 +162,37 @@ export default function () {
                 if (nDim > 2) {
                     node.vz += z * treeNode.value * alpha / l;
                 }
+            } else {
+
+                //This node is too far away. We don't even care about.
             }
             return true;
             // Remember, if we return true, the visit function will not visit the children of this node.
         }
 
+
+        // The data is not very far away in terms of the extent of the bound of the current node.
+
+
         // Otherwise, process points directly.
         else if (
-            treeNode.length || l >= distanceMax2
-        ) return;
+            treeNode.length           // This is a internal node
+            ||
+            l >= distanceMax2         // The Data is very far away
+        ) {
+            return; // This is a internal node, we need to visit the children.
+        }
+
+
+        // For the function to reach here, it has to be a leaf node
+
+
 
         // Limit forces for very close nodes; randomize direction if coincident.
-        if (treeNode.data !== node || treeNode.next) {
+        if (treeNode.data !== node
+            ||
+            treeNode.next
+        ) {
             if (x === 0) x = jiggle(random), l += x * x;
             if (nDim > 1 && y === 0) y = jiggle(random), l += y * y;
             if (nDim > 2 && z === 0) z = jiggle(random), l += z * z;

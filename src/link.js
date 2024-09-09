@@ -59,10 +59,16 @@ export default function (links) {
             ) {
 
 
-                ll("!!!!!!!!links[i]", links[i]);
+                ll("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!links[i]", links[i]);
                 link = links[i],
                     source = link.source,
                     target = link.target;
+
+
+
+                ll("!!!!!!!!source.vx Original", source.vx, "source.vy", source.vy, "source.vz", source.vz)
+                ll("!!!!!!!!target.vx Original", target.vx, "target.vy", target.vy, "target.vz", target.vz)
+
                 x = target.x + target.vx - source.x - source.vx || jiggle(random);
                 if (nDim > 1) {
                     y = target.y + target.vy - source.y - source.vy || jiggle(random);
@@ -73,7 +79,7 @@ export default function (links) {
                 l = Math.sqrt(x * x + y * y + z * z);
                 l = (l - distances[i]) / l * alpha * strengths[i];
                 x *= l, y *= l, z *= l;
-
+                ll("bias[i]", bias[i], "x", x, "y", y, "z", z)
                 target.vx -= x * (b = bias[i]);
                 if (nDim > 1) {
                     target.vy -= y * b;
