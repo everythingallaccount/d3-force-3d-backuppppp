@@ -36,7 +36,8 @@ export default function () {
                                 )
                         )
                 )
-
+        l("!!!!!!!!force(_)!!!!!!!!  tree._x0:", tree._x0, "tree._y0:", tree._y0, "tree._z0:", tree._z0,
+            "tree._x1:", tree._x1, "tree._y1:", tree._y1, "tree._z1:", tree._z1);
 
         tree.visitAfter(accumulate);
         l("!!!!!!!!force(_)!!!!!!!!  tree:", tree);
@@ -55,6 +56,7 @@ export default function () {
         for (i = 0; i < n; ++i) {
             node = nodes[i],
                 strengths[node.index] = +strength(node, i, nodes);
+                l("!!!!!!!!initialize strengths[node.index]:", strengths[node.index]);
         }
     }
 
@@ -69,9 +71,14 @@ export default function () {
             i;
 
         var numChildren = treeNode.length;
-        l("!!!!!!!!accumulate numChildren:", numChildren);
+
+
+
+        l("!!!!!!!!accumulate treeNode--------------------------------7:", treeNode);
+        l("!!!!!!!!accumulate numChildren:!!!!!!!!", numChildren);
         // This function is meant to be called bottom up approach in the whole tree,
-        // so the else part will be 1 1st.
+        // so the else part will be executed first.
+        // Because this callback will be executed on the leaf nodes first.
         if (numChildren) {
 
 
@@ -84,15 +91,18 @@ export default function () {
                     (q = treeNode[i]) &&
                     (c = Math.abs(q.value))
                 ) {
+
                     strength += q.value,
                         weight += c,
                         x += c * (q.x || 0),
                         y += c * (q.y || 0),
                         z += c * (q.z || 0);
+                }else{
+                    //
                 }
             }
             strength *= Math.sqrt(4 / numChildren); // scale accumulated strength according to number of dimensions
-
+            l("!!!!!!!!accumulate strength After multiplied by square root. ", strength);
             treeNode.x = x / weight;
             if (nDim > 1) {
                 treeNode.y = y / weight;
@@ -120,7 +130,7 @@ export default function () {
             do strength += strengths[q.data.index];  // Minus 30 for all the node.
             while (q = q.next);       // q.next is the next node in the same Position
         }
-
+        l("!!!!!!!!accumulate strength:", strength);
         treeNode.value = strength;
     }
 

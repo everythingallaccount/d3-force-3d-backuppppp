@@ -57,7 +57,7 @@ export default function (nodes, numDimensions) {
         if (iterations === undefined) iterations = 1;
 
         for (var k = 0; k < iterations; ++k) {
-            l("!!!!!!!tick: iterations", k)
+            l("!!!!!!!tick: iterationssssssssssssssssssssssssssssssssssssssssssssssssssssss", k)
             alpha += (alphaTarget - alpha) * alphaDecay;
 
 
