@@ -4,7 +4,7 @@ import {octree} from "d3-octree";
 import constant from "./constant.js";
 import jiggle from "./jiggle.js";
 import {x, y, z} from "./simulation.js";
-import {l} from "./utilssssss.js";
+import {l, ll} from "./utilssssss.js";
 
 export default function () {
     var nodes,
@@ -45,6 +45,7 @@ export default function () {
         for (alpha = _, i = 0; i < n; ++i)
             node = nodes[i],
                 tree.visit(apply);// We visit the tree against this node.
+        l("!!!!!!!!force(_)!!!!!!!!  nodes:", nodes);
     }
 
     function initialize() {
@@ -146,7 +147,7 @@ export default function () {
 
         // Apply the Barnes-Hut approximation if possible.
         // Limit forces for very close nodes; randomize direction if coincident.
-
+        l("!!!!!!!!w * w / theta2:", w * w / theta2, "l:", l);
         if (w * w / theta2 < l
             // The distance between the Data and the Center of the bound of the tree node
             // is greater than
@@ -154,7 +155,7 @@ export default function () {
 
         ) {
             if (l < distanceMax2) {
-
+                ll("!!!!!!!!l<distanceMax2", l, "distanceMax2", distanceMax2);
                 if (x === 0)
                     x = jiggle(random),
                         l += x * x;
@@ -172,6 +173,7 @@ export default function () {
                 if (nDim > 2) {
                     node.vz += z * treeNode.value * alpha / l;
                 }
+
             } else {
 
                 //This node is too far away. We don't even care about.
@@ -203,6 +205,7 @@ export default function () {
             ||
             treeNode.next
         ) {
+            l("!!!!!!!!233treeNode.data !== node", treeNode.data !== node, "treeNode.next", treeNode.next);
             if (x === 0) x = jiggle(random), l += x * x;
             if (nDim > 1 && y === 0) y = jiggle(random), l += y * y;
             if (nDim > 2 && z === 0) z = jiggle(random), l += z * z;
@@ -212,6 +215,7 @@ export default function () {
         do if (
             treeNode.data !== node
         ) {
+
             w = strengths[treeNode.data.index] * alpha / l;
             node.vx += x * w;
             if (nDim > 1) {
