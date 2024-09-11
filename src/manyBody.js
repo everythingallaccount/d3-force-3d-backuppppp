@@ -144,7 +144,11 @@ export default function () {
             z = (nDim > 2 ? treeNode.z - node.z : 0),
             w = x2 - x1,
             l = x * x + y * y + z * z;
-        l("!!!!!!!!apply x:", x, "y:", y, "z:", z, "w:", w, "l:", l);
+        ll("-----------------");
+        // ll("treeNode.x:", treeNode.x, "node.x:", node.x,
+        //     "treeNode.y:", treeNode.y, "node.y:", node.y,
+        //     "treeNode.z:", treeNode.z, "node.z:", node.z);
+        // ll("!!!!!!!!apply x:", x, "y:", y, "z:", z, "w:", w, "l:", l);
         // Apply the Barnes-Hut approximation if possible.
         // Limit forces for very close nodes; randomize direction if coincident.
         ll("!!!!!!!!w * w / theta2:", w * w / theta2, "l:", l);
@@ -192,6 +196,7 @@ export default function () {
             ||
             l >= distanceMax2         // The Data is very far away
         ) {
+            ll("Need to return false here. treeNode.length:", treeNode.length, "l:", l, "distanceMax2:", distanceMax2);
             return; // This is a internal node, we need to visit the children.
         }
 
@@ -205,7 +210,7 @@ export default function () {
             ||
             treeNode.next
         ) {
-            l("!!!!!!!!233treeNode.data !== node", treeNode.data !== node, "treeNode.next", treeNode.next);
+            ll("!!!!!!!!randomized something. treeNode.data !== node", treeNode.data !== node, "treeNode.next", treeNode.next);
             if (x === 0) x = jiggle(random), l += x * x;
             if (nDim > 1 && y === 0) y = jiggle(random), l += y * y;
             if (nDim > 2 && z === 0) z = jiggle(random), l += z * z;
@@ -224,6 +229,7 @@ export default function () {
             if (nDim > 2) {
                 node.vz += z * w;
             }
+            ll("!!!!!!!!The following is updated velocity.  node.vx:", node.vx, "node.vy:", node.vy, "node.vz:", node.vz);
         } while (treeNode = treeNode.next);
     }
 
