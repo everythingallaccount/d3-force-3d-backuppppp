@@ -20,7 +20,7 @@ export default function () {
         theta2 = 0.81;
 
     function force(_) {
-        l("!!!!!!!!force(_)!!!!!!!!");
+
         l("!!!!!!!!force(_)!!!!!!!! Now attempting to build a new tree with the nodes:", nodes,
             "Right after the tree is built we accumulate the forces Downside up. "
         );
@@ -38,14 +38,14 @@ export default function () {
                 )
         l("!!!!!!!!force(_)!!!!!!!!  tree._x0:", tree._x0, "tree._y0:", tree._y0, "tree._z0:", tree._z0,
             "tree._x1:", tree._x1, "tree._y1:", tree._y1, "tree._z1:", tree._z1);
-
+        l("!!!!!!!!force(_)!!!!!!!!  tree Building finished. Now we are going to accumulate the forces Downside up. ");
         tree.visitAfter(accumulate);
-        l("!!!!!!!!force(_)!!!!!!!!  tree:", tree);
-        l("!!!!!!!!force(_)!!!!!!!!  tree.root:", tree._root);
+        l("!!!!!!!!force(_)!!!!!!!!  Accumulate finished. Now we are going to apply the forces to the nodes, tree:", tree);
+
         for (alpha = _, i = 0; i < n; ++i)
             node = nodes[i],
                 tree.visit(apply);// We visit the tree against this node.
-        l("!!!!!!!!force(_)!!!!!!!!  nodes:", nodes);
+        l("!!!!!!!!force(_)!!!!!!!!  visit finished. Now we are going to return the force function. ");
     }
 
     function initialize() {
@@ -144,7 +144,7 @@ export default function () {
             z = (nDim > 2 ? treeNode.z - node.z : 0),
             w = x2 - x1,
             l = x * x + y * y + z * z;
-
+        l("!!!!!!!!apply x:", x, "y:", y, "z:", z, "w:", w, "l:", l);
         // Apply the Barnes-Hut approximation if possible.
         // Limit forces for very close nodes; randomize direction if coincident.
         ll("!!!!!!!!w * w / theta2:", w * w / theta2, "l:", l);
