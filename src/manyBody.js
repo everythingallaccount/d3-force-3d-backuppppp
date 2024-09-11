@@ -182,6 +182,7 @@ export default function () {
 
                 //This node is too far away. We don't even care about.
             }
+            ll("Early termination. Returning true. ");
             return true;
             // Remember, if we return true, the visit function will not visit the children of this node.
         }
@@ -231,6 +232,7 @@ export default function () {
             }
             ll("!!!!!!!!The following is updated velocity.  node.vx:", node.vx, "node.vy:", node.vy, "node.vz:", node.vz);
         } while (treeNode = treeNode.next);
+        ll("Returning False here At the very end. ");
     }
 
     force.initialize = function (_nodes, ...args) {
