@@ -57,9 +57,10 @@ export default function (nodes, numDimensions) {
         if (iterations === undefined) iterations = 1;
 
         for (var k = 0; k < iterations; ++k) {
-            l("!!!!!!!tick: iterationssssssssssssssssssssssssssssssssssssssssssssssssssssss", k)
+            l("!!!!!!!tick: iterationsssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss", k)
             alpha += (alphaTarget - alpha) * alphaDecay;
-
+            l("!!!!!!!tick: alpha += (alphaTarget - alpha) * alphaDecay")
+            l("!!!!!!!tick: alpha:", alpha)
 
             l("!!!!!!!tick: forces.forEach")
 

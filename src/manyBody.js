@@ -147,7 +147,7 @@ export default function () {
 
         // Apply the Barnes-Hut approximation if possible.
         // Limit forces for very close nodes; randomize direction if coincident.
-        l("!!!!!!!!w * w / theta2:", w * w / theta2, "l:", l);
+        ll("!!!!!!!!w * w / theta2:", w * w / theta2, "l:", l);
         if (w * w / theta2 < l
             // The distance between the Data and the Center of the bound of the tree node
             // is greater than
