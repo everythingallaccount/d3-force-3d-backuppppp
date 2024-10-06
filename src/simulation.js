@@ -74,6 +74,10 @@ export default function (nodes, numDimensions) {
 
             for (i = 0; i < n; ++i) {
                 node = nodes[i];
+
+                l("111111111111111111111111112node.x:", node.x, "node.y:", node.y, "node.z:", node.z)
+                l("11111111111111111111111111node.vx:", node.vx, "node.vy:", node.vy, "node.vz:", node.vz)
+
                 if (node.fx == null) node.x += node.vx *= velocityDecay;
                 else node.x = node.fx, node.vx = 0;
                 if (nDim > 1) {
@@ -84,6 +88,8 @@ export default function (nodes, numDimensions) {
                     if (node.fz == null) node.z += node.vz *= velocityDecay;
                     else node.z = node.fz, node.vz = 0;
                 }
+                l("11111111111111111111111111node.x:", node.x, "node.y:", node.y, "node.z:", node.z)
+                l("11111111111111111111111111node.vx:", node.vx, "node.vy:", node.vy, "node.vz:", node.vz)
             }
         }
 

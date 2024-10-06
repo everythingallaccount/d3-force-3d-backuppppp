@@ -4,7 +4,26 @@ import {octree} from "d3-octree";
 import constant from "./constant.js";
 import jiggle from "./jiggle.js";
 import {x, y, z} from "./simulation.js";
-import {l, ll} from "./utilssssss.js";
+
+
+
+function ll(...args) {
+    const lastArg = args[args.length - 1];
+    // Check if last argument is true or an integer
+    if (lastArg === true) {
+        console.log(...args.slice(0, -1)); // Remove the last argument before logging
+    }
+    // If the condition is not met, do nothing
+}
+
+function l(...args) {
+    const lastArg = args[args.length - 1];
+    // Check if last argument is true or an integer
+    if (lastArg === true) {
+        console.log(...args.slice(0, -1)); // Remove the last argument before logging
+    }
+    // If the condition is not met, do nothing
+}
 
 export default function () {
     var nodes,
@@ -42,10 +61,12 @@ export default function () {
         tree.visitAfter(accumulate);
         l("!!!!!!!!force(_)!!!!!!!!  Accumulate finished. Now we are going to apply the forces to the nodes, tree:", tree);
 
-        for (alpha = _, i = 0; i < n; ++i)
+        for (alpha = _, i = 0; i < n; ++i) {
+            l("!!!!!!!!force(_)!!!!!!!!  i:", i);
             node = nodes[i],
                 tree.visit(apply);// We visit the tree against this node.
-        l("!!!!!!!!force(_)!!!!!!!!  visit finished. Now we are going to return the force function. ");
+        }
+            l("!!!!!!!!force(_)!!!!!!!!  visit finished. Now we are going to return the force function. ");
     }
 
     function initialize() {
@@ -62,6 +83,12 @@ export default function () {
     }
 
     function accumulate(treeNode) {
+
+
+
+
+
+
         var strength = 0,
             q,
             c,
@@ -137,6 +164,8 @@ export default function () {
 
     function apply(treeNode, x1, arg1, arg2, arg3) {
         if (!treeNode.value) return true;
+
+        let log=true;
         var x2 = [arg1, arg2, arg3][nDim - 1];
 
         var x = treeNode.x - node.x,
@@ -144,14 +173,20 @@ export default function () {
             z = (nDim > 2 ? treeNode.z - node.z : 0),
             w = x2 - x1,
             l = x * x + y * y + z * z;
-        ll("-----------------");
+        ll("-----------------", log);
         // ll("treeNode.x:", treeNode.x, "node.x:", node.x,
         //     "treeNode.y:", treeNode.y, "node.y:", node.y,
         //     "treeNode.z:", treeNode.z, "node.z:", node.z);
         // ll("!!!!!!!!apply x:", x, "y:", y, "z:", z, "w:", w, "l:", l);
         // Apply the Barnes-Hut approximation if possible.
         // Limit forces for very close nodes; randomize direction if coincident.
-        ll("!!!!!!!!w * w / theta2:", w * w / theta2, "l:", l);
+        // ll("treennnnnnn", treeNode);
+        ll("lower bound:", x1, arg1, arg2, "  upper bound:", arg3, arg1+w, arg2+w, log);
+
+        // ll("l:", l)
+
+        // ll("w * w / theta2:", w * w / theta2);
+
         if (w * w / theta2 < l
             // The distance between the Data and the Center of the bound of the tree node
             // is greater than
@@ -159,7 +194,7 @@ export default function () {
 
         ) {
             if (l < distanceMax2) {
-                ll("!!!!!!!!l<distanceMax2", l, "distanceMax2", distanceMax2);
+
                 if (x === 0)
                     x = jiggle(random),
                         l += x * x;
@@ -168,6 +203,13 @@ export default function () {
 
 
                 if (l < distanceMin2) l = Math.sqrt(distanceMin2 * l);
+                if (0) {
+                    ll("l:", l)
+                    ll("treeNode.value:", treeNode.value);
+                    ll("alpha:", alpha);
+                    ll("x:", x, "y:", y, "z:", z);
+                    ll("node.vx:", node.vx, "node.vy:", node.vy, "node.vz:", node.vz);
+                }
 
 
                 node.vx += x * treeNode.value * alpha / l;
@@ -177,12 +219,16 @@ export default function () {
                 if (nDim > 2) {
                     node.vz += z * treeNode.value * alpha / l;
                 }
+                ll("The following is updated velocity. " +
+                    " node.vx:", node.vx, "node.vy:", node.vy, "node.vz:", node.vz,
+                    log);
 
             } else {
 
                 //This node is too far away. We don't even care about.
             }
-            ll("Early termination. Returning true. ");
+            ll("11111111111111111111 Early termination. Returning true. ",
+                log);
             return true;
             // Remember, if we return true, the visit function will not visit the children of this node.
         }
@@ -197,7 +243,7 @@ export default function () {
             ||
             l >= distanceMax2         // The Data is very far away
         ) {
-            ll("Need to return false here. treeNode.length:", treeNode.length, "l:", l, "distanceMax2:", distanceMax2);
+            ll("2222222222222222222 Need to return false here. ", log);
             return; // This is a internal node, we need to visit the children.
         }
 
@@ -211,7 +257,10 @@ export default function () {
             ||
             treeNode.next
         ) {
-            ll("!!!!!!!!randomized something. treeNode.data !== node", treeNode.data !== node, "treeNode.next", treeNode.next);
+            if (0) {
+                ll("!!!!!!!!randomized something. treeNode.data !== node", treeNode.data !== node, "treeNode.next", treeNode.next);
+            }
+
             if (x === 0) x = jiggle(random), l += x * x;
             if (nDim > 1 && y === 0) y = jiggle(random), l += y * y;
             if (nDim > 2 && z === 0) z = jiggle(random), l += z * z;
@@ -230,9 +279,9 @@ export default function () {
             if (nDim > 2) {
                 node.vz += z * w;
             }
-            ll("!!!!!!!!The following is updated velocity.  node.vx:", node.vx, "node.vy:", node.vy, "node.vz:", node.vz);
+            ll("updated velocity.  node.vx:", node.vx, "node.vy:", node.vy, "node.vz:", node.vz, log);
         } while (treeNode = treeNode.next);
-        ll("Returning False here At the very end. ");
+        ll("3333333333333333 Returning False here At the very end. ", log);
     }
 
     force.initialize = function (_nodes, ...args) {

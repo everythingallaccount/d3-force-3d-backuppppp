@@ -1,14 +1,21 @@
 import constant from "./constant.js";
 import jiggle from "./jiggle.js";
-import {ll} from "./utilssssss.js";
+// import {ll} from "./utilssssss.js";
 
 function index(d) {
     return d.index;
 }
 
+let ll
 
+if (0) {
+    let ll = console.log
+} else {
+    ll = function () {
+    }
+}
 
-
+// export const l=console.log
 
 
 
@@ -77,7 +84,9 @@ export default function (links) {
                     z = target.z + target.vz - source.z - source.vz || jiggle(random);
                 }
                 l = Math.sqrt(x * x + y * y + z * z);
+                ll("l", l)
                 l = (l - distances[i]) / l * alpha * strengths[i];
+                ll("l", l)
                 x *= l, y *= l, z *= l;
                 ll("bias[i]", bias[i], "x", x, "y", y, "z", z)
                 target.vx -= x * (b = bias[i]);
