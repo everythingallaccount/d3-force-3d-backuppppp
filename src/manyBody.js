@@ -6,7 +6,6 @@ import jiggle from "./jiggle.js";
 import {x, y, z} from "./simulation.js";
 
 
-
 function ll(...args) {
     const lastArg = args[args.length - 1];
     // Check if last argument is true or an integer
@@ -25,6 +24,8 @@ function l(...args) {
     // If the condition is not met, do nothing
 }
 
+
+let log = true;
 export default function () {
     var nodes,
         nDim,
@@ -41,8 +42,8 @@ export default function () {
     function force(_) {
 
         l("!!!!!!!!force(_)!!!!!!!! Now attempting to build a new tree with the nodes:", nodes,
-            "Right after the tree is built we accumulate the forces Downside up. "
-        );
+            "Right after the tree is built we accumulate the forces Downside up. ",
+            log);
 
         var i,
             n = nodes.length,
@@ -55,18 +56,29 @@ export default function () {
                                 )
                         )
                 )
-        l("!!!!!!!!force(_)!!!!!!!!  tree._x0:", tree._x0, "tree._y0:", tree._y0, "tree._z0:", tree._z0,
-            "tree._x1:", tree._x1, "tree._y1:", tree._y1, "tree._z1:", tree._z1);
-        l("!!!!!!!!force(_)!!!!!!!!  tree Building finished. Now we are going to accumulate the forces Downside up. ");
+        l("!!!!!!!!force(_)!!!!!!!!  " +
+            "tree._x0:",
+            tree._x0,
+            "tree._y0:",
+            tree._y0,
+            "tree._z0:", tree._z0,
+            "tree._x1:", tree._x1, "tree._y1:", tree._y1, "tree._z1:", tree._z1,
+            log);
+
+
+        l("!!!!!!!!force(_)!!!!!!!!  tree Building finished. " +
+            "Now we are going to accumulate the forces Downside up. ", log);
         tree.visitAfter(accumulate);
-        l("!!!!!!!!force(_)!!!!!!!!  Accumulate finished. Now we are going to apply the forces to the nodes, tree:", tree);
+        l("!!!!!!!!force(_)!!!!!!!!  Accumulate finished. " +
+            " tree:", tree, log);
+        l("Now we are going to apply the forces to the nodes. ", log);
 
         for (alpha = _, i = 0; i < n; ++i) {
             l("!!!!!!!!force(_)!!!!!!!!  i:", i);
             node = nodes[i],
                 tree.visit(apply);// We visit the tree against this node.
         }
-            l("!!!!!!!!force(_)!!!!!!!!  visit finished. Now we are going to return the force function. ");
+        l("!!!!!!!!force(_)!!!!!!!!  visit finished. Now we are going to return the force function. ");
     }
 
     function initialize() {
@@ -78,16 +90,11 @@ export default function () {
         for (i = 0; i < n; ++i) {
             node = nodes[i],
                 strengths[node.index] = +strength(node, i, nodes);
-                l("!!!!!!!!initialize strengths[node.index]:", strengths[node.index]);
+            l("!!!!!!!!initialize strengths[node.index]:", strengths[node.index]);
         }
     }
 
     function accumulate(treeNode) {
-
-
-
-
-
 
         var strength = 0,
             q,
@@ -99,7 +106,6 @@ export default function () {
             i;
 
         var numChildren = treeNode.length;
-
 
 
         l("!!!!!!!!accumulate treeNode--------------------------------7:", treeNode);
@@ -125,7 +131,7 @@ export default function () {
                         x += c * (q.x || 0),
                         y += c * (q.y || 0),
                         z += c * (q.z || 0);
-                }else{
+                } else {
                     //
                 }
             }
@@ -165,7 +171,7 @@ export default function () {
     function apply(treeNode, x1, arg1, arg2, arg3) {
         if (!treeNode.value) return true;
 
-        let log=true;
+        let log = true;
         var x2 = [arg1, arg2, arg3][nDim - 1];
 
         var x = treeNode.x - node.x,
@@ -181,7 +187,7 @@ export default function () {
         // Apply the Barnes-Hut approximation if possible.
         // Limit forces for very close nodes; randomize direction if coincident.
         // ll("treennnnnnn", treeNode);
-        ll("lower bound:", x1, arg1, arg2, "  upper bound:", arg3, arg1+w, arg2+w, log);
+        ll("lower bound:", x1, arg1, arg2, "  upper bound:", arg3, arg1 + w, arg2 + w, log);
 
         // ll("l:", l)
 
@@ -234,7 +240,7 @@ export default function () {
         }
 
 
-        // The data is not very far away in terms of the extent of the bound of the current node.
+            // The data is not very far away in terms of the extent of the bound of the current node.
 
 
         // Otherwise, process points directly.
@@ -249,7 +255,6 @@ export default function () {
 
 
         // For the function to reach here, it has to be a leaf node
-
 
 
         // Limit forces for very close nodes; randomize direction if coincident.

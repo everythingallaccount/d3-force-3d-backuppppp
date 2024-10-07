@@ -1,7 +1,22 @@
 import {dispatch} from "d3-dispatch";
 import {timer} from "d3-timer";
 import lcg from "./lcg.js";
-import {l} from "./utilssssss.js";
+// import {l} from "./utilssssss.js";
+
+
+function l(...args) {
+    const lastArg = args[args.length - 1];
+    // Check if last argument is true or an integer
+    if (lastArg === true) {
+        console.log(...args.slice(0, -1)); // Remove the last argument before logging
+    }
+    // If the condition is not met, do nothing
+}
+
+
+
+
+
 
 var MAX_DIMENSIONS = 3;
 
@@ -21,6 +36,9 @@ var initialRadius = 10,
     initialAngleRoll = Math.PI * (3 - Math.sqrt(5)), // Golden ratio angle
     initialAngleYaw = Math.PI * 20 / (9 + Math.sqrt(221)); // Markov irrational number
 
+
+
+let log = true
 export default function (nodes, numDimensions) {
     l("d3 forceSimulation function called!")
 
@@ -41,7 +59,7 @@ export default function (nodes, numDimensions) {
     if (nodes == null) nodes = [];
 
     function step() {
-        l("!!!!!!!stepppppppppppppppppppppppppppp")
+        l("!!!!!!!stepppppppppppppppppppppppppppppppppppppppppppppppppppppppppp")
         tick();
         event.call("tick", simulation);
         if (alpha < alphaMin) {
@@ -51,32 +69,38 @@ export default function (nodes, numDimensions) {
     }
 
     function tick(iterations) {
-        l("!!!!!!!tick")
+        l("!!!!!!!tick",log)
         var i, n = nodes.length, node;
 
         if (iterations === undefined) iterations = 1;
 
         for (var k = 0; k < iterations; ++k) {
-            l("!!!!!!!tick: iterationsssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss", k)
+            l("!!!!!!!tick: iterationsssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss",
+                k,
+                log
+            )
             alpha += (alphaTarget - alpha) * alphaDecay;
-            l("!!!!!!!tick: alpha += (alphaTarget - alpha) * alphaDecay")
-            l("!!!!!!!tick: alpha:", alpha)
+            // l("!!!!!!!tick: alpha += (alphaTarget - alpha) * alphaDecay")
+            l("!!!!!!!tick: alpha:", alpha, log)
 
-            l("!!!!!!!tick: forces.forEach")
 
             forces.forEach(function (force) {
 
                 l("!!!!!!!tick: forces.forEach: force",
-                    // force
+                    log
+                    ,
+
                 )
+                l("The position and velocity",nodes,log)
                 force(alpha);
             });
 
             for (i = 0; i < n; ++i) {
                 node = nodes[i];
 
-                l("111111111111111111111111112node.x:", node.x, "node.y:", node.y, "node.z:", node.z)
-                l("11111111111111111111111111node.vx:", node.vx, "node.vy:", node.vy, "node.vz:", node.vz)
+                l("Before update", log)
+                l("11111node.x:", node.x, "node.y:", node.y, "node.z:", node.z , log)
+                l("11111node.vx:", node.vx, "node.vy:", node.vy, "node.vz:", node.vz, log)
 
                 if (node.fx == null) node.x += node.vx *= velocityDecay;
                 else node.x = node.fx, node.vx = 0;
@@ -88,8 +112,9 @@ export default function (nodes, numDimensions) {
                     if (node.fz == null) node.z += node.vz *= velocityDecay;
                     else node.z = node.fz, node.vz = 0;
                 }
-                l("11111111111111111111111111node.x:", node.x, "node.y:", node.y, "node.z:", node.z)
-                l("11111111111111111111111111node.vx:", node.vx, "node.vy:", node.vy, "node.vz:", node.vz)
+                l("After update", log)
+                l("11111node.x:", node.x, "node.y:", node.y, "node.z:", node.z, log)
+                l("1111lnode.vx:", node.vx, "node.vy:", node.vy, "node.vz:", node.vz, log)
             }
         }
 

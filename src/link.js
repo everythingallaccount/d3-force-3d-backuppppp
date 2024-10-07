@@ -6,20 +6,22 @@ function index(d) {
     return d.index;
 }
 
-let ll
-
-if (0) {
-    let ll = console.log
-} else {
-    ll = function () {
-    }
-}
 
 // export const l=console.log
 
+export function ll(...args) {
+    const lastArg = args[args.length - 1];
+    // Check if last argument is true or an integer
+    if (lastArg === true
+    // || lastArg === 1
+    ) {
+        console.log(...args.slice(0, -1)); // Remove the last argument before logging
+    }
+    // If the condition is not met, do nothing
+}
 
 
-
+let log = true
 
 function find(nodeById, nodeId) {
     var node = nodeById.get(nodeId);
@@ -66,15 +68,15 @@ export default function (links) {
             ) {
 
 
-                ll("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!links[i]", links[i]);
+                ll("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!links[i]", links[i],log)
                 link = links[i],
                     source = link.source,
                     target = link.target;
 
 
 
-                ll("!!!!!!!!source.vx Original", source.vx, "source.vy", source.vy, "source.vz", source.vz)
-                ll("!!!!!!!!target.vx Original", target.vx, "target.vy", target.vy, "target.vz", target.vz)
+                ll("!!!!!!!!source.vx Original", source.vx, "source.vy", source.vy, "source.vz", source.vz,log)
+                ll("!!!!!!!!target.vx Original", target.vx, "target.vy", target.vy, "target.vz", target.vz,log)
 
                 x = target.x + target.vx - source.x - source.vx || jiggle(random);
                 if (nDim > 1) {
@@ -105,8 +107,8 @@ export default function (links) {
                     source.vz += z * b;
                 }
 
-                ll("!!!!!!!!source.vx", source.vx, "source.vy", source.vy, "source.vz", source.vz)
-                ll("!!!!!!!!target.vx", target.vx, "target.vy", target.vy, "target.vz", target.vz)
+                ll("!!!!!!!!source.vx", source.vx, "source.vy", source.vy, "source.vz", source.vz,log)
+                ll("!!!!!!!!target.vx", target.vx, "target.vy", target.vy, "target.vz", target.vz,log)
             }
         }
     }
