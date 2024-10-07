@@ -74,7 +74,7 @@ export default function () {
         l("Now we are going to apply the forces to the nodes. ", log);
 
         for (alpha = _, i = 0; i < n; ++i) {
-            l("!!!!!!!!force(_)!!!!!!!!  i:", i);
+            l("!!!!!!!!force(_)!!!!!!!!  i:", i,'---------------------------------------------------------------', log);
             node = nodes[i],
                 tree.visit(apply);// We visit the tree against this node.
         }

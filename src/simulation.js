@@ -75,24 +75,26 @@ export default function (nodes, numDimensions) {
         if (iterations === undefined) iterations = 1;
 
         for (var k = 0; k < iterations; ++k) {
-            l("!!!!!!!tick: iterationsssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss",
-                k,
-                log
-            )
+            // l("!!!!!!!tick: iterationsssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss",
+            //     k,
+            //     log
+            // )
             alpha += (alphaTarget - alpha) * alphaDecay;
             // l("!!!!!!!tick: alpha += (alphaTarget - alpha) * alphaDecay")
-            l("!!!!!!!tick: alpha:", alpha, log)
+            l("-------------------------------------------------------------------------" +
+                "!!!!!!!tick: alpha:", alpha, log)
 
 
             forces.forEach(function (force) {
 
-                l("!!!!!!!tick: forces.forEach: force",
+                l("-------------------------------------------------!!!!!!!tick: forces.forEach: force",
                     log
                     ,
 
                 )
-                l("The position and velocity",nodes,log)
+                // l("The position and velocity",nodes,log)
                 force(alpha);
+                // l("The position and velocity after the force",nodes,log)
             });
 
             for (i = 0; i < n; ++i) {
@@ -221,6 +223,7 @@ export default function (nodes, numDimensions) {
 
         force: function (name, _) {
             l("Name of the force Added. Name:", name, "Force:", _, log)
+            l("forces", forces, log)
             return arguments.length > 1 ?
                 (
                     (_ == null ?
