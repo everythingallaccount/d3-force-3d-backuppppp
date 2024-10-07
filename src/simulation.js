@@ -220,6 +220,7 @@ export default function (nodes, numDimensions) {
         },
 
         force: function (name, _) {
+            l("Name of the force Added. Name:", name, "Force:", _, log)
             return arguments.length > 1 ?
                 (
                     (_ == null ?
