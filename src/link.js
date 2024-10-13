@@ -21,7 +21,7 @@ export function ll(...args) {
 }
 
 
-let log = true
+let log = false
 
 function find(nodeById, nodeId) {
     var node = nodeById.get(nodeId);

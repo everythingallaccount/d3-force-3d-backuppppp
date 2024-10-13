@@ -40,8 +40,8 @@ export default function () {
         theta2 = 0.81;
 
     function force(_) {
-
-        l("!!!!!!!!force(_)!!!!!!!! Now attempting to build a new tree with the nodes:", nodes,
+        let log = true;
+        l("Now attempting to build a new tree with the nodes:", nodes,
             "Right after the tree is built we accumulate the forces Downside up. ",
             log);
 
@@ -56,7 +56,7 @@ export default function () {
                                 )
                         )
                 )
-        l("!!!!!!!!force(_)!!!!!!!!  " +
+        l(" " +
             "tree._x0:",
             tree._x0,
             "tree._y0:",
@@ -66,13 +66,14 @@ export default function () {
             log);
 
 
-        l("!!!!!!!!force(_)!!!!!!!!  tree Building finished. " +
+        l("  tree Building finished. " +
             "Now we are going to accumulate the forces Downside up. ", log);
         tree.visitAfter(accumulate);
         l("!!!!!!!!force(_)!!!!!!!!  Accumulate finished. " +
             " tree:", tree, log);
         l("Now we are going to apply the forces to the nodes. ", log);
 
+        log = false;
         for (alpha = _, i = 0; i < n; ++i) {
             l("!!!!!!!!force(_)!!!!!!!!  i:", i,'---------------------------------------------------------------', log);
             node = nodes[i],
@@ -135,7 +136,10 @@ export default function () {
                     //
                 }
             }
+
+
             strength *= Math.sqrt(4 / numChildren); // scale accumulated strength according to number of dimensions
+
             l("!!!!!!!!accumulate strength After multiplied by square root. ", strength);
             treeNode.x = x / weight;
             if (nDim > 1) {
@@ -144,7 +148,7 @@ export default function () {
             if (nDim > 2) {
                 treeNode.z = z / weight;
             }
-
+            ll("Internal node , treeNode.x:", treeNode.x, "treeNode.y:", treeNode.y, "treeNode.z:", treeNode.z, log);
             l("!!!!!!!!accumulate treeNode:" +
                 "(This mainly calculate the average value of the X and Y of all the Data points in a node. ",
                 treeNode
@@ -161,17 +165,24 @@ export default function () {
             if (nDim > 2) {
                 q.z = q.data.z;
             }
-            do strength += strengths[q.data.index];  // Minus 30 for all the node.
+
+
+            do {
+                strength += strengths[q.data.index];
+                ll("Leaf node strength:+=", strengths[q.data.index], log);
+
+            }
             while (q = q.next);       // q.next is the next node in the same Position
         }
         l("!!!!!!!!accumulate strength:", strength);
         treeNode.value = strength;
+        ll("Final strength of this node. treeNode.value:", treeNode.value, log);
     }
 
     function apply(treeNode, x1, arg1, arg2, arg3) {
         if (!treeNode.value) return true;
 
-        let log = true;
+        let log = false;
         var x2 = [arg1, arg2, arg3][nDim - 1];
 
         var x = treeNode.x - node.x,

@@ -99,7 +99,7 @@ export default function (nodes, numDimensions) {
 
             for (i = 0; i < n; ++i) {
                 node = nodes[i];
-
+                let log=false
                 l("Before update", log)
                 l("11111node.x:", node.x, "node.y:", node.y, "node.z:", node.z , log)
                 l("11111node.vx:", node.vx, "node.vy:", node.vy, "node.vz:", node.vz, log)
