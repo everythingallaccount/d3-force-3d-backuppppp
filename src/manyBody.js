@@ -73,13 +73,13 @@ export default function () {
             " tree:", tree, log);
         l("Now we are going to apply the forces to the nodes. ", log);
 
-        log = false;
+        log = true;
         for (alpha = _, i = 0; i < n; ++i) {
-            l("!!!!!!!!force(_)!!!!!!!!  i:", i,'---------------------------------------------------------------', log);
+            l("!!!tree.visit(apply)!!!  i:", i,'---------------------------------------------------------------', log);
             node = nodes[i],
                 tree.visit(apply);// We visit the tree against this node.
         }
-        l("!!!!!!!!force(_)!!!!!!!!  visit finished. Now we are going to return the force function. ");
+        l("!!!!!!  visit finished. Now we are going to return Charge force function. ",log);
     }
 
     function initialize() {
@@ -183,6 +183,9 @@ export default function () {
         if (!treeNode.value) return true;
 
         let log = false;
+        let log2 = true;
+        let log3 = true;
+
         var x2 = [arg1, arg2, arg3][nDim - 1];
 
         var x = treeNode.x - node.x,
@@ -227,6 +230,7 @@ export default function () {
                     ll("x:", x, "y:", y, "z:", z);
                     ll("node.vx:", node.vx, "node.vy:", node.vy, "node.vz:", node.vz);
                 }
+                ll("original velocity.  node.vx:", node.vx, "node.vy:", node.vy, "node.vz:", node.vz, log3);
 
 
                 node.vx += x * treeNode.value * alpha / l;
@@ -238,14 +242,14 @@ export default function () {
                 }
                 ll("The following is updated velocity. " +
                     " node.vx:", node.vx, "node.vy:", node.vy, "node.vz:", node.vz,
-                    log);
+                    log3);
 
             } else {
 
                 //This node is too far away. We don't even care about.
             }
             ll("11111111111111111111 Early termination. Returning true. ",
-                log);
+                log3);
             return true;
             // Remember, if we return true, the visit function will not visit the children of this node.
         }
@@ -260,7 +264,7 @@ export default function () {
             ||
             l >= distanceMax2         // The Data is very far away
         ) {
-            ll("2222222222222222222 Need to return false here. ", log);
+            ll("2222222222222222222 Need to return false here. ", log3);
             return; // This is a internal node, we need to visit the children.
         }
 
@@ -295,9 +299,9 @@ export default function () {
             if (nDim > 2) {
                 node.vz += z * w;
             }
-            ll("updated velocity.  node.vx:", node.vx, "node.vy:", node.vy, "node.vz:", node.vz, log);
+            ll("updated velocity.  node.vx:", node.vx, "node.vy:", node.vy, "node.vz:", node.vz, log3);
         } while (treeNode = treeNode.next);
-        ll("3333333333333333 Returning False here At the very end. ", log);
+        ll("3333333333333333 Returning False here At the very end. ", log3);
     }
 
     force.initialize = function (_nodes, ...args) {
